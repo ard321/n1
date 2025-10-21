@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>Redirecting…</title>
+  <meta name="robots" content="noindex" />
+  <script>
+    (function () {
+      // 예: /n1/01.png  -> repo=n1, file=01.png
+      // 예: /s1/img/00.png -> repo=s1, file=img/00.png
+      const { pathname } = new URL(location.href);
+      const parts = pathname.split("/").filter(Boolean); // ["n1","01.png"] 등
+      if (parts.length < 2) {
+        document.write("잘못된 경로입니다.");
+        return;
+      }
+      const repo = parts[0];
+      const file = parts.slice(1).join("/");
+      const target = `https://raw.githubusercontent.com/ard321/${repo}/refs/heads/main/${file}`;
+      // 주소 기록 남기지 않으려면 replace, 남기려면 href=
+      location.replace(target);
+    })();
+  </script>
+  <noscript>
+    자바스크립트가 꺼져 있어 자동 이동이 되지 않습니다.
+    <a id="target" href="#">수동으로 이동</a>
+    <script>
+      // noscript 안에서는 실행되지 않지만, 접근성용 앵커만 남깁니다.
+    </script>
+  </noscript>
+</head>
+<body></body>
+</html>
